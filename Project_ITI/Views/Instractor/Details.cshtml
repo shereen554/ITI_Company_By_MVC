@@ -1,0 +1,19 @@
+﻿@model INstractorDeptCourse
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="card text-center" style="width: 20rem; hight:300px;">
+    <img src="/Images/@Model.ImagUrl" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h3 class="card-title">@Model.Name</h3>
+        <p class="card-text">@Model.Salary</p>
+        <p class="card-text">@Model.Address</p>
+        <p class="card-text">@Model.DepartmentName</p>
+        <p class="card-text">@Model.CourseName</p>
+        <a href="https://localhost:7069/Instractor/Index" class="btn btn-primary" style="width:100px">Back</a>
+    </div>
+</div>
+
