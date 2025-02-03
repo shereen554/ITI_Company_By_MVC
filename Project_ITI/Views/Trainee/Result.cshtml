@@ -1,0 +1,26 @@
+﻿@model CrsTraineeViewModel
+@{
+    ViewData["Title"] = "Result";
+}
+
+<table class="table table-hover text-center">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col"> Trainee</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Degree</th>
+        </tr>
+    </thead>
+    <tbody>
+           <tr>
+               
+             <td class="text-center" style="color:@Model.color">@Model.TraineeId</td>
+             <td class="text-center" style="color:@Model.color">@Model.TraineeName</td>
+             <td class="text-center" style="color:@Model.color">@Model.CourseName</td>
+             <td class="text-center" style="color:@Model.color">@Model.Degree</td>
+           </tr>
+
+    </tbody>
+</table>
+

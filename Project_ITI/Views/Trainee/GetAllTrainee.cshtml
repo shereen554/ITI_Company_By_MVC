@@ -1,0 +1,34 @@
+﻿@model List<TraineeDegreeViewModel>
+@{
+    ViewData["Title"] = "GetAllTrainee";
+}
+
+<table class="table table-hover text-center">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Degree</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center" style="color:@item.color;">@item.Id</td>
+                <td class="text-center" style="color:@item.color;"> <img class="card-img-top" style="width:100px;" src="/Images/@item.ImageUrl" alt="Card image "></td>
+                <td class="text-center" style="color:@item.color;">@item.Name</td>
+            <td class="text-center" style="color:@item.color;">@item.Address</td>
+                <td class="text-center" style="color:@item.color;">@item.Course_Name</td>
+                <td class="text-center" style="color:@item.color;">@item.Degree</td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+

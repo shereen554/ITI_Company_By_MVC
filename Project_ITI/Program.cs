@@ -1,4 +1,4 @@
-namespace Project_ITI
+﻿namespace Project_ITI
 {
     public class Program
     {
@@ -8,6 +8,10 @@ namespace Project_ITI
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            // علشان services بيحتاج tools فبديلو tools قبل 
+            builder.Services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
 
             var app = builder.Build();
 
@@ -21,7 +25,7 @@ namespace Project_ITI
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapStaticAssets();
