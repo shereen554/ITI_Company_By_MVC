@@ -1,0 +1,44 @@
+﻿@model List<CourseWithDepartmentViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_MyLayout";
+}
+
+
+
+<table class="table table-hover text-center">
+    <thead>
+        <tr>
+    
+         
+            <th scope="col">Name</th>
+            <th scope="col">Degree</th>
+            <th scope="col">Min Degree</th>
+            <th scope="col">Houre</th>
+            <th scope="col">Department</th>
+            @* <th scope="col">Details</th> *@
+            @* <th scope="col">Edit</th> *@
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td class="text-center">@item.Name</td>
+                <td class="text-center">@item.Degree</td>
+                <td class="text-center">@item.MinDegree</td>
+                <td class="text-center">@item.Hours</td>
+                <td class="text-center">@item.DepartmentName</td>
+                @* <td class="text-center"><a href="https://localhost:7069/Instractor/Details?id=@item.Id">Details</a> </td> *@
+                @* <td class="text-center"><a href="https://localhost:7069/Instractor/Edit?id=@item.Id">Edit</a> </td> *@
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+
+
