@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using NuGet.Packaging.Signing;
 using Project_ITI.Models;
 using Project_ITI.ViewModel;
 
@@ -9,15 +10,15 @@ namespace Project_ITI.Controllers
     {
         ITIContext ITIContext =new ITIContext();
         
-
-        public IActionResult Index()
+        public List<INstractorDeptCourse> All()
         {
-            List<Instractor> Instractors =ITIContext.Instractors.ToList();
+            List<Instractor> Instractors = ITIContext.Instractors.ToList();
 
             List<INstractorDeptCourse> InstractorDeptCoursesModel = new List<INstractorDeptCourse>();
             foreach (var item in Instractors)
             {
-                var ins = new INstractorDeptCourse() {
+                var ins = new INstractorDeptCourse()
+                {
                     Id = item.Id,
                     Name = item.Name,
                     Address = item.Address,
@@ -26,12 +27,17 @@ namespace Project_ITI.Controllers
                     CourseName = ITIContext.Courses.Where(n => n.Id == item.CourseId).Select(n => n.Name).FirstOrDefault(),
                     DepartmentName = ITIContext.Departments.Where(n => n.Id == item.DepartmentId).Select(n => n.Name).FirstOrDefault()
                 };
-                InstractorDeptCoursesModel.Add(ins);    
+                InstractorDeptCoursesModel.Add(ins);
 
             }
-
             HttpContext.Session.SetString("InstractorDeptCoursesModel", JsonConvert.SerializeObject(InstractorDeptCoursesModel));
-            return View("Index", InstractorDeptCoursesModel);
+            return InstractorDeptCoursesModel;
+
+        }
+        public IActionResult Index()
+        {
+
+            return View("Index", All());
         }
         public IActionResult Details(int id)
         {
@@ -49,6 +55,8 @@ namespace Project_ITI.Controllers
 
             return View("Details", InstractorDeptCourse);
         }
+
+       
 
         public IActionResult Edit(int id) 
         {
@@ -93,6 +101,42 @@ namespace Project_ITI.Controllers
             viewmodel.DepartmentList=ITIContext.Departments.ToList();
             viewmodel.CourseList=ITIContext.Courses.ToList();
             return View("Edit", viewmodel);
+        }
+
+        public IActionResult NewInstractor()
+        {
+
+            InstractorWithDeptAndCourseListModelView viewmodel=new InstractorWithDeptAndCourseListModelView();
+            viewmodel.DepartmentList=ITIContext.Departments.ToList().ToList();
+            viewmodel.CourseList = ITIContext.Courses.ToList();
+
+                return View("NewInstractor", viewmodel);
+
+        }
+        [HttpPost]
+        public IActionResult SaveNew(InstractorWithDeptAndCourseListModelView viewmodel)
+        {
+            if (viewmodel.Name != null && viewmodel.ImagUrl != null && viewmodel.Salary != null && viewmodel.Address != null)
+            {
+                Instractor instractor = new Instractor()
+                {
+                    Name = viewmodel.Name,
+                    Address = viewmodel.Address,
+                    CourseId = viewmodel.CourseId,
+                    Salary = viewmodel.Salary,
+                    ImagUrl = viewmodel.ImagUrl,
+                    DepartmentId = viewmodel.DepartmentId,
+                };
+                ITIContext.Instractors.Add(instractor);
+                ITIContext.SaveChanges();
+
+                
+                return RedirectToAction("Index",All());
+            }
+            viewmodel.CourseList=ITIContext.Courses.ToList();
+            viewmodel.DepartmentList=ITIContext.Departments.ToList();
+
+            return View("NewInstractor",viewmodel);
         }
 
         
