@@ -1,4 +1,8 @@
-﻿namespace Project_ITI
+﻿using Microsoft.EntityFrameworkCore;
+using Project_ITI.Models;
+using Project_ITI.Reposatry;
+
+namespace Project_ITI
 {
     public class Program
     {
@@ -12,6 +16,17 @@
             builder.Services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+            // بعرفو انا عاوزه اني dbContext => (ITIContext)----بياخد مني Func--- (SQl Server) بعرفها انا عاوزه اشتغل علي اي اللي هو 
+            builder.Services.AddDbContext<ITIContext>(option =>
+            {
+                                    // بحدد هنا الكونكشن استرنج وبجيب من app setting 
+                                    //لازم اعمل الحجات دي قبل ما يبيلد 
+                option.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });
+
+            //Custom Servecis
+            builder.Services.AddScoped<IDepartmentReposatry, DepartmentReposatry>();
+            builder.Services.AddScoped<ICourseReposatry, CourseReposatry>();
 
             var app = builder.Build();
 

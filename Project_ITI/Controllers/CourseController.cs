@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_ITI.Models;
+using Project_ITI.Reposatry;
 using Project_ITI.ViewModel;
 
 namespace Project_ITI.Controllers
 {
     public class CourseController : Controller
     {
-        ITIContext db = new ITIContext();
+        // ITIContext db = new ITIContext();
+
+        ICourseReposatry courseReposatry;
+        IDepartmentReposatry departmentReposatry;
+        public CourseController(IDepartmentReposatry departmentReposatry,ICourseReposatry courseReposatry)
+        {
+            this.departmentReposatry = departmentReposatry; 
+            this.courseReposatry = courseReposatry;
+        }
 
 
         public IActionResult CheckHour(int hours)
@@ -30,7 +39,7 @@ namespace Project_ITI.Controllers
         public List<CourseWithDepartmentViewModel> AllCourse()
         {
             List<CourseWithDepartmentViewModel> viewModels = new List<CourseWithDepartmentViewModel>();
-            var course = db.Courses.ToList();
+            var course = courseReposatry.GetAll();
             foreach (var courseViewModel in course)
             {
                 CourseWithDepartmentViewModel viewModel = new CourseWithDepartmentViewModel()
@@ -41,8 +50,9 @@ namespace Project_ITI.Controllers
                     Hours = courseViewModel.Hours,
                     DepartmentId = courseViewModel.DepartmentId,
                 };
-                viewModel.DepartmentName = db.Departments.SingleOrDefault(n => n.Id == courseViewModel.DepartmentId).Name;
-                viewModel.departments = db.Departments.ToList();
+                //viewModel.DepartmentName = db.Departments.SingleOrDefault(n => n.Id == courseViewModel.DepartmentId).Name;
+                viewModel.DepartmentName=departmentReposatry.GetById((int)courseViewModel.DepartmentId).Name;
+                viewModel.departments = departmentReposatry.GetAll();
                 viewModels.Add(viewModel);
             }
             return viewModels;
@@ -56,7 +66,7 @@ namespace Project_ITI.Controllers
         public IActionResult New()
         {
             CourseWithDepartmentViewModel viewModel = new CourseWithDepartmentViewModel();
-            viewModel.departments=db.Departments.ToList();
+            viewModel.departments = departmentReposatry.GetAll();
 
             return View("New", viewModel);
         }
@@ -79,8 +89,8 @@ namespace Project_ITI.Controllers
                         MinDegree = viewModel.MinDegree,
                         DepartmentId = viewModel.DepartmentId,
                     };
-                    db.Courses.Add(course);
-                    db.SaveChanges();
+                   courseReposatry.Add(course);
+                    courseReposatry.SaveChange();
                     return RedirectToAction("Index", AllCourse());
                 }
                 catch (Exception ex) 
@@ -88,7 +98,7 @@ namespace Project_ITI.Controllers
                       ModelState.AddModelError("DepartmentId", "Please Select DEpartment");
                 }
             }
-            viewModel.departments=db.Departments.ToList();
+            viewModel.departments=departmentReposatry.GetAll();
             return View("New",viewModel);
         }
     }
