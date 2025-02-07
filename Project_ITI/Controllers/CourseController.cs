@@ -8,6 +8,25 @@ namespace Project_ITI.Controllers
     {
         ITIContext db = new ITIContext();
 
+
+        public IActionResult CheckHour(int hours)
+        {
+            if(hours%3==0)
+            {
+                return Json(true);
+            }
+            return Json(false);
+        }
+
+        public IActionResult checkMinDegree(decimal mindegree ,decimal degree)
+        {
+            if(mindegree<degree)
+            {
+                return Json(true);
+            }
+            return Json(false);
+        }
+
         public List<CourseWithDepartmentViewModel> AllCourse()
         {
             List<CourseWithDepartmentViewModel> viewModels = new List<CourseWithDepartmentViewModel>();
@@ -45,19 +64,29 @@ namespace Project_ITI.Controllers
         public IActionResult SaveNew(CourseWithDepartmentViewModel viewModel) 
         {
             
-            if(viewModel.Degree !=null && viewModel.MinDegree !=null &&  viewModel.Hours !=null && viewModel.Name !=null)
+            //if(viewModel.Degree !=null && viewModel.MinDegree !=null &&  viewModel.Hours !=null && viewModel.Name !=null)
+            //{
+            if(ModelState.IsValid)
             {
-                Course course = new Course()
+                try
                 {
-                    Name=viewModel.Name,
-                    Degree=viewModel.Degree,
-                    Hours=viewModel.Hours,
-                    MinDegree=viewModel.MinDegree,
-                    DepartmentId=viewModel.DepartmentId,
-                };
-                db.Courses.Add(course);
-                db.SaveChanges();
-                return RedirectToAction("Index",AllCourse());
+
+                    Course course = new Course()
+                    {
+                        Name = viewModel.Name,
+                        Degree = viewModel.Degree,
+                        Hours = viewModel.Hours,
+                        MinDegree = viewModel.MinDegree,
+                        DepartmentId = viewModel.DepartmentId,
+                    };
+                    db.Courses.Add(course);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", AllCourse());
+                }
+                catch (Exception ex) 
+                {
+                      ModelState.AddModelError("DepartmentId", "Please Select DEpartment");
+                }
             }
             viewModel.departments=db.Departments.ToList();
             return View("New",viewModel);

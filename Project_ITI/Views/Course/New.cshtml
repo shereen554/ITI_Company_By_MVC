@@ -11,27 +11,44 @@
     <div>
         <label asp-for="Name"></label>
         <input class="form form-control" asp-for="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Degree"></label>
         <input class="form form-control" asp-for="Degree" />
+        <span asp-validation-for="Degree" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="MinDegree"></label>
         <input class="form form-control" asp-for="MinDegree" />
+        <span asp-validation-for="MinDegree" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Hours"></label>
         <input class="form form-control" asp-for="Hours" />
+        <span asp-validation-for="Hours" class="text-danger"></span>
     </div>
 
     <div>
         <label asp-for="DepartmentId"></label>
         <select asp-for="DepartmentId" asp-items="DeptItems" class="form form-control">
+            <span asp-validation-for="DepartmentId" class="text-danger"></span>
         </select>
     </div>
     <input type="submit" value="Create" class="btn btn-primary" />
 </form>
 <a asp-action="Index" asp-controller="Course">Back To List</a>
+
+<!--Jqury Links-->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script> *@
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js"></script> *@
+@* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js"></script> *@
+
+<!--end Jqury Links-->
 
 
