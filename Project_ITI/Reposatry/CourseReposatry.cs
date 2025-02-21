@@ -25,6 +25,11 @@ namespace Project_ITI.Reposatry
             return db.Courses.ToList();
         }
 
+        public List<Course> GetByDeptIt(int deptId)
+        {
+            return db.Courses.Where(n=>n.DepartmentId== deptId).ToList();
+        }
+
         public Course GetById(int id)
         {
             return db.Courses.FirstOrDefault(n => n.Id == id);
@@ -33,6 +38,11 @@ namespace Project_ITI.Reposatry
         public Course GetByName(string name)
         {
             return db.Courses.FirstOrDefault(n => n.Name == name);
+        }
+
+        public string GetCourseName(int id)
+        {
+            return db.Courses.FirstOrDefault(n => n.Id == id).Name;
         }
 
         public int SaveChange()

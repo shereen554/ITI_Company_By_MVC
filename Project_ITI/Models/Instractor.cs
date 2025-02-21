@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project_ITI.Models
@@ -8,7 +9,11 @@ namespace Project_ITI.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        [HiddenInput]
         public string ImagUrl { get; set; }
+        [NotMapped]
+        public IFormFile ImgFom { get; set; }
+
         public decimal Salary { get; set; }
         public string Address { get; set; }
         [ForeignKey("Department")]

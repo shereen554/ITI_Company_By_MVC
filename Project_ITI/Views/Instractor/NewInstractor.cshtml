@@ -4,11 +4,12 @@
 }
 
 
-<form method="post" action="/Instractor/SaveNew">
-   
+<form method="post" action="/Instractor/SaveNew" enctype="multipart/form-data">
+
     <div>
-        <label for="ImagUrl">Imag</label>
-        <input type="text" id="ImagUrl" name="ImagUrl" value="@Model.ImagUrl" class="form form-control" />
+        <label asp-for="ImgFom"></label>
+        <input class="form form-control" asp-for="ImgFom" accept="image/jpg" />
+        <span asp-validation-for="ImgFom" class="text-danger"></span>
     </div>
     <div>
         <label for="Name">Name</label>
@@ -23,48 +24,68 @@
         <input type="text" id="Address" name="Address" value="@Model.Address" class="form form-control" />
     </div>
 
-    <div>
-        <label for="DepartmentId">Department Id</label>
-        <select id="DepartmentId" name="DepartmentId" class="form form-control">
-            @foreach (Department depItem in Model.DepartmentList)
-            {
-                if (Model.Id == depItem.Id)
-                {
-                    <option value="@depItem.Id" selected>@depItem.Name</option>
-                }
-                else
-                {
-                    <option value="@depItem.Id">@depItem.Name</option>
+   <div>
+    <label for="DepartmentId">Department</label>
+    <select id="DepartmentId" name="DepartmentId" class="form form-control">
+        <option value="">--  Selecteed Department --</option>
+        @foreach (Department depItem in Model.DepartmentList)
+        {
+                <option value="@depItem.Id" selected="@(Model.DepartmentId == depItem.Id ? "selected" : null)">
+                    @depItem.Name
+                </option>
+        }
+    </select>
+</div>
 
-                }
+<div>
+    <label for="CourseId">Course</label>
+    <select id="CourseId" name="CourseId" class="form form-control">
+        <option value="">--Selected Course  --</option>
+        @foreach (Course courseItem in Model.CourseList)
+        {
+                <option value="@courseItem.Id" selected="@(Model.CourseId == courseItem.Id ? "selected" : null)">
+                    @courseItem.Name
+                </option>
+        }
+    </select>
+</div>
 
-
-            }
-        </select>
-
-    </div>
-
-    <div>
-        <label for="CourseId">Course Id</label>
-        <select id="CourseId" name="CourseId" class="form form-control">
-            @foreach (Course courseItem in Model.CourseList)
-            {
-                if (Model.Id == courseItem.Id)
-                {
-                    <option value="@courseItem.Id" selected>@courseItem.Name</option>
-                }
-                else
-                {
-                    <option value="@courseItem.Id">@courseItem.Name</option>
-
-                }
-            }
-        </select>
-
-    </div>
     <input type="submit" value="Save" class="btn btn-success" />
 </form>
 <a href="/Instractor/Index">Back To List</a>
+
+
+
+//AJAX
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#DepartmentId").change(function () {
+            var departmentId = $(this).val();
+            console.log(departmentId);
+            if (departmentId) {
+                $.ajax({
+                    url: `/Instractor/GetCoursesByDepartment?departmentId=${departmentId}`,
+                    success: function (data) {
+                        var courseDropdown = $("#CourseId");
+                        courseDropdown.empty();
+                        courseDropdown.append('<option value="">--  Selected Course --</option>');
+                        $.each(data, function (index, course) {
+
+                            courseDropdown.append('<option value="' + course.id + '">' + course.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $("#CourseId").empty().append('<option value="">-- Selected Course --</option>');
+            }
+        });
+    });
+
+
+</script>
+
 
 
 

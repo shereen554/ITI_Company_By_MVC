@@ -30,6 +30,11 @@ namespace Project_ITI.Reposatry
             return db.Departments.FirstOrDefault(n => n.Id == id);
         }
 
+        public string GetDepartmentName(int id)
+        {
+            return db.Departments.FirstOrDefault(n => n.Id == id).Name;
+        }
+
         public int SaveChange()
         {
            return db.SaveChanges();

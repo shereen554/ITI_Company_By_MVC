@@ -10,6 +10,9 @@ namespace Project_ITI.Reposatry
         void Update(Course course);
         void Delete(Course course);
         void Add (Course course);
+        List<Course> GetByDeptIt(int deptId);
+
+        string GetCourseName(int id);
         int SaveChange();
     }
 }

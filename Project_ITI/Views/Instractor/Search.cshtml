@@ -1,14 +1,9 @@
-﻿
-@model List<INstractorDeptCourse>
+﻿@model List<INstractorDeptCourse>
 @{
-    ViewData["Title"] = "Index";
-    int i = 1;
+    ViewData["Title"] = "Search";
 }
 
-<h1>Index</h1>
-
-<input type="text" name="searchQuery" class="form-control" placeholder="Search">
-<button type="submit" class="btn btn-primary mt-2" href="https://localhost:7069/Instractor/Search?Name=Name">Search</button>
+<h1>Search</h1>
 
 <table class="table table-hover text-center">
     <thead>
@@ -22,14 +17,14 @@
             <th scope="col">Course</th>
             <th scope="col">Details</th>
             <th scope="col">Edit</th>
-            <th scope="col" style="color:red">Delete</th>
+            @* <th scope="col" style="color:red">Delete</th> *@
         </tr>
     </thead>
     <tbody>
 
-    @foreach(var item in Model)
-    {
-            <tr >
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td class="text-center">@(i++)</td>
                 <td class="text-center"> <img class="card-img-top" style="width:100px;" src="/Images/@item.ImagUrl" alt="Card image "></td>
                 <td class="text-center">@item.Name</td>
@@ -39,23 +34,12 @@
                 <td class="text-center">@item.CourseName</td>
                 <td class="text-center"><a href="https://localhost:7069/Instractor/Details?id=@item.Id">Details</a> </td>
                 <td class="text-center"><a href="https://localhost:7069/Instractor/Edit?id=@item.Id">Edit</a> </td>
-                <td class="text-center"><a href="#" onclick="confirmDelete(@item.Id)">Delete</a> </td>
+                @* <td class="text-center"><a href="#" onclick="confirmDelete(@item.Id)">Delete</a> </td> *@
 
             </tr>
-    }
- 
+        }
+
     </tbody>
 </table>
 
- @*  *@
 
-<script>
-
-     function confirmDelete(id) {
-        return confirm("Are you sure you want to delete this Instracton?")? window.location.href = "https://localhost:7069/Instractor/Delete?id=" + id : false;
-    }
-</script>
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>

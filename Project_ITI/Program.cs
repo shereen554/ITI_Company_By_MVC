@@ -27,6 +27,7 @@ namespace Project_ITI
             //Custom Servecis
             builder.Services.AddScoped<IDepartmentReposatry, DepartmentReposatry>();
             builder.Services.AddScoped<ICourseReposatry, CourseReposatry>();
+            builder.Services.AddScoped<IInstractorReposatry, InstractorReposatry>();
 
             var app = builder.Build();
 
